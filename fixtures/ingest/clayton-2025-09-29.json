@@ -1,0 +1,90 @@
+{
+    "schema": "UCR/Action/health_inspection@v1",
+    "subject": { "type": "venue", "id": "Clayton High School" },
+    "payload": {
+      "inspection_id": "clayton-2025-09-29",
+      "inspection_type": "ROUTINE INSPECTION",
+      "score_100": 90,
+      "grade_raw": "90%",
+      "violations": [
+        {
+          "code": "F009",
+          "title": "Adequate hand-washing facilities supplied and accessible",
+          "narrative": "Handwashing signs not available at handsinks. Corrected: posted sign at prep-line handsink.",
+          "critical": true,
+          "corrected_on_site": true
+        },
+        {
+          "code": "F015",
+          "title": "Food contact surfaces cleaned and sanitized",
+          "narrative": "Can opener blade not clean. Corrected: cleaned before next use.",
+          "critical": true,
+          "corrected_on_site": true
+        },
+        {
+          "code": "F022",
+          "title": "Proper hot holding",
+          "narrative": "Potentially hazardous foods not held at ≥135°F. Corrected: using time as control, discard after 4 hours.",
+          "critical": true,
+          "corrected_on_site": true
+        },
+        {
+          "code": "F031",
+          "title": "Proof of hepatitis A immunization",
+          "narrative": "Hepatitis A records not available on site for all current employees.",
+          "critical": true,
+          "corrected_on_site": false
+        },
+        {
+          "code": "F032",
+          "title": "Clear and concise record keeping",
+          "narrative": "Hepatitis A records not organized; maintain clear, accessible records.",
+          "critical": true,
+          "corrected_on_site": false
+        },
+        {
+          "code": "F037",
+          "title": "Contamination prevented; employee cleanliness",
+          "narrative": "Food on display not protected at salad bar.",
+          "critical": false,
+          "corrected_on_site": false
+        },
+        {
+          "code": "F043",
+          "title": "Plumbing installed/backflow prevention",
+          "narrative": "Y-valve at mop sink needs proper backflow protection.",
+          "critical": false,
+          "corrected_on_site": false
+        },
+        {
+          "code": "F044",
+          "title": "Garbage/refuse properly disposed",
+          "narrative": "Dumpster lids not kept closed. Corrected: lids closed between use.",
+          "critical": false,
+          "corrected_on_site": true
+        },
+        {
+          "code": "F046",
+          "title": "Physical facilities maintained and clean",
+          "narrative": "Air gap at back entry door; damage at ceiling tiles above walk-in freezer and wall/floor in dry storage doorway.",
+          "critical": false,
+          "corrected_on_site": false
+        },
+        {
+          "code": "F047",
+          "title": "Adequate ventilation and lighting",
+          "narrative": "Lights out on hood system and in prep/dry storage; light out in reach-in cooler.",
+          "critical": false,
+          "corrected_on_site": false
+        }
+      ]
+    },
+    "evidence": {
+      "source_system": "EnvisionConnect PressAgent (DecadeOnline) – St. Louis County",
+      "source_url": "https://pressagent.envisionconnect.com/insp.phtml?agency=STL&record_id=<RECORD_ID_CLAYTON>",
+      "checksum_sha256": ""
+    },
+    "time": { "observed": "2025-09-29", "ingested": "2025-10-25T17:10:00Z" },
+    "cid": "stub-clayton-2025-09-29"
+  }
+  

@@ -1,0 +1,27 @@
+{
+    "schema": "UCR/Action/health_inspection@v1",
+    "subject": { "type": "venue", "id": "Ladue Horton Watkins High School" },
+    "payload": {
+      "inspection_id": "ladue-2024-12-13",
+      "inspection_type": "ROUTINE INSPECTION",
+      "score_100": 99,
+      "grade_raw": "99%",
+      "violations": [
+        {
+          "code": "F042",
+          "title": "Warewashing facilities installed, maintained, and test strips provided",
+          "narrative": "Test kits not available to measure sanitizer concentration. (4-302.14) A test kit or other device that accurately measures the concentration of sanitizing solutions shall be provided.",
+          "critical": false,
+          "corrected_on_site": false
+        }
+      ]
+    },
+    "evidence": {
+      "source_system": "EnvisionConnect PressAgent (DecadeOnline) – St. Louis County",
+      "source_url": "https://pressagent.envisionconnect.com/insp.phtml?agency=STL&record_id=PR0012101",
+      "checksum_sha256": ""
+    },
+    "time": { "observed": "2024-12-13", "ingested": "2025-10-25T17:35:00Z" },
+    "cid": "stub-ladue-2024-12-13"
+  }
+  

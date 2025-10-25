@@ -1,0 +1,41 @@
+{
+    "schema": "UCR/Action/health_inspection@v1",
+    "subject": { "type": "venue", "id": "Ladue Horton Watkins High School" },
+    "payload": {
+      "inspection_id": "ladue-2023-12-11",
+      "inspection_type": "ROUTINE INSPECTION",
+      "score_100": 99,
+      "grade_raw": "99%",
+      "violations": [
+        {
+          "code": "F015",
+          "title": "Food contact surfaces cleaned and sanitized",
+          "narrative": "Residue observed on ice baffle. Corrected by cleaning. (4-601.11)",
+          "critical": true,
+          "corrected_on_site": true
+        },
+        {
+          "code": "F037",
+          "title": "Contamination prevented during food prep/storage/display; employee cleanliness",
+          "narrative": "Apples on display not wrapped. Corrected by placing under sneeze guard. (3-306.11)",
+          "critical": false,
+          "corrected_on_site": true
+        },
+        {
+          "code": "F040",
+          "title": "Single-use/service articles properly stored and used",
+          "narrative": "Single-service items not properly dispensed to protect food/lip contact surfaces. (4-904.11)",
+          "critical": false,
+          "corrected_on_site": false
+        }
+      ]
+    },
+    "evidence": {
+      "source_system": "EnvisionConnect PressAgent (DecadeOnline) – St. Louis County",
+      "source_url": "https://pressagent.envisionconnect.com/insp.phtml?agency=STL&record_id=PR0012101",
+      "checksum_sha256": ""
+    },
+    "time": { "observed": "2023-12-11", "ingested": "2025-10-25T17:35:00Z" },
+    "cid": "stub-ladue-2023-12-11"
+  }
+  

@@ -1,0 +1,48 @@
+{
+    "schema": "UCR/Action/health_inspection@v1",
+    "subject": { "type": "venue", "id": "Clayton High School" },
+    "payload": {
+      "inspection_id": "clayton-2025-03-24",
+      "inspection_type": "ROUTINE INSPECTION",
+      "score_100": 98,
+      "grade_raw": "98%",
+      "violations": [
+        {
+          "code": "F023",
+          "title": "Proper cold holding",
+          "narrative": "Items including roast beef held above 41°F on serving line. Corrected by using time/temperature control; discard after 4 hours.",
+          "critical": true,
+          "corrected_on_site": true
+        },
+        {
+          "code": "F037",
+          "title": "Contamination prevented; storage/employee cleanliness",
+          "narrative": "Food stored in boxes on walk-in floor; dented can on rack. Corrected by relocating to shelves and discarding dented can.",
+          "critical": false,
+          "corrected_on_site": true
+        },
+        {
+          "code": "F046",
+          "title": "Physical facilities maintained and clean",
+          "narrative": "Mop improperly stored post-use.",
+          "critical": false,
+          "corrected_on_site": false
+        },
+        {
+          "code": "F047",
+          "title": "Adequate ventilation and lighting",
+          "narrative": "Lights out above grill.",
+          "critical": false,
+          "corrected_on_site": false
+        }
+      ]
+    },
+    "evidence": {
+      "source_system": "EnvisionConnect PressAgent (DecadeOnline) – St. Louis County",
+      "source_url": "https://pressagent.envisionconnect.com/insp.phtml?agency=STL&record_id=<RECORD_ID_CLAYTON>",
+      "checksum_sha256": ""
+    },
+    "time": { "observed": "2025-03-24", "ingested": "2025-10-25T17:10:00Z" },
+    "cid": "stub-clayton-2025-03-24"
+  }
+  
