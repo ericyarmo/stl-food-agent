@@ -6,6 +6,7 @@ Built in under 12 hours at the 2025 WashU Skandalaris Hackathon
 👀 What it is
 
 STL Food Agent is a small proof that public data can be alive and verifiable.
+
 It pulls St. Louis County’s food-inspection pages — tangled frames, legacy scripts, no API — and converts them into civic receipts: plain Markdown + YAML files that anyone can read, verify, or reuse.
 Those receipts power a static dashboard and a chat agent that can answer:
 
