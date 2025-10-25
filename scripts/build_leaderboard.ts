@@ -2,9 +2,11 @@
 import fs from "node:fs";
 import path from "node:path";
 
+type Violation = { code: string; title: string; critical: boolean };
 type Receipt = {
   entity: { name: string; address?: string };
-  inspection: { date: string; score: number; critical_violations: number };
+  inspection: { date: string; score: number; critical_violations?: number; violations?: Violation[] };
+  source?: { url: string };
 };
 
 function* walk(dir: string): Generator<string> {
@@ -16,10 +18,31 @@ function* walk(dir: string): Generator<string> {
   }
 }
 
-const root = path.join(process.cwd(), "fixtures", "receipts");
+/** Find the JSON file for a school's latest date and return its criticals */
+function findLatestCriticalsForSchool(school: string, latestDate: string): { code: string; title: string }[] {
+  const root = path.join(process.cwd(), "fixtures", "receipts");
+  for (const dirent of fs.readdirSync(root, { withFileTypes: true })) {
+    if (!dirent.isDirectory()) continue;
+    const dir = path.join(root, dirent.name);
+    const candidate = path.join(dir, `${latestDate}.json`);
+    if (!fs.existsSync(candidate)) continue;
+    try {
+      const rec = JSON.parse(fs.readFileSync(candidate, "utf8"));
+      if (rec?.entity?.name === school) {
+        const list: Violation[] = (rec.inspection?.violations || []).filter((v: any) => v.critical);
+        return list.map(v => ({ code: v.code, title: v.title }));
+      }
+    } catch {
+      /* ignore and continue */
+    }
+  }
+  return [];
+}
+
+const receiptsRoot = path.join(process.cwd(), "fixtures", "receipts");
 const map = new Map<string, { address?: string; rows: { date: string; score: number; criticals: number }[] }>();
 
-for (const file of walk(root)) {
+for (const file of walk(receiptsRoot)) {
   const r = JSON.parse(fs.readFileSync(file, "utf8")) as Receipt;
   if (!r?.inspection?.date || !r?.entity?.name) continue;
 
@@ -28,7 +51,7 @@ for (const file of walk(root)) {
   map.get(key)!.rows.push({
     date: r.inspection.date,
     score: r.inspection.score,
-    criticals: r.inspection.critical_violations || 0
+    criticals: r.inspection.critical_violations ?? (r.inspection.violations || []).filter(v => v.critical).length ?? 0
   });
 }
 
@@ -56,13 +79,16 @@ for (const [school, acc] of map) {
     .filter(r => r.date >= yearStart)
     .reduce((s, r) => s + (r.criticals || 0), 0);
 
+  const latestCriticals = latest?.date ? findLatestCriticalsForSchool(school, latest.date) : [];
+
   out.push({
     school,
     address: acc.address || "",
     latestDate: latest?.date || "",
     latestScore: latest?.score ?? 0,
     avg12mo: Number(avg12mo.toFixed(1)),
-    criticalsYTD
+    criticalsYTD,
+    latestCriticals // NEW: [{code,title},...]
   });
 }
 

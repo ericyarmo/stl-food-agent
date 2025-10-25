@@ -2,144 +2,187 @@
   {
     "id": "hazelwood-central-2025-10-22",
     "school": "Hazelwood Central Sr High School",
+    "parent": {},
     "address": "15875 New Halls Ferry Rd, Florissant, MO 63031",
     "date": "2025-10-22",
     "score": 100,
     "critical_count": 1,
     "noncritical_count": 0,
+    "critical_titles": [
+      "F022 Proper hot holding"
+    ],
     "source_url": "https",
-    "receipt_cid": "stub-hazelwood-central-2025-10-22"
+    "receipt_cid": "stub-hazelwood-central-2025-10-22",
+    "summary": "1 critical, 0 noncritical — e.g., F022 Proper hot holding"
   },
   {
     "id": "clayton-2025-10-13",
     "school": "Clayton High School",
+    "parent": {},
     "address": "1 Mark Twain Cir, Saint Louis, MO 63105-1613",
     "date": "2025-10-13",
     "score": 96,
     "critical_count": 2,
     "noncritical_count": 4,
+    "critical_titles": [],
     "source_url": "https",
-    "receipt_cid": "stub-clayton-2025-10-13"
+    "receipt_cid": "stub-clayton-2025-10-13",
+    "summary": "0 critical, 1 noncritical"
   },
   {
     "id": "clayton-2025-09-29",
     "school": "Clayton High School",
+    "parent": {},
     "address": "1 Mark Twain Cir, Saint Louis, MO 63105-1613",
     "date": "2025-09-29",
     "score": 90,
     "critical_count": 5,
     "noncritical_count": 5,
+    "critical_titles": [],
     "source_url": "https",
-    "receipt_cid": "stub-clayton-2025-09-29"
+    "receipt_cid": "stub-clayton-2025-09-29",
+    "summary": "0 critical, 1 noncritical"
   },
   {
     "id": "clayton-2025-03-24",
     "school": "Clayton High School",
+    "parent": {},
     "address": "1 Mark Twain Cir, Saint Louis, MO 63105-1613",
     "date": "2025-03-24",
     "score": 98,
     "critical_count": 1,
     "noncritical_count": 3,
+    "critical_titles": [],
     "source_url": "https",
-    "receipt_cid": "stub-clayton-2025-03-24"
+    "receipt_cid": "stub-clayton-2025-03-24",
+    "summary": "0 critical, 1 noncritical"
   },
   {
     "id": "clayton-high-school-stuber-gymnasium-concession-2025-03-12-rt",
     "school": "Clayton High School — Stuber Gymnasium Concession",
+    "parent": "Clayton High School",
     "address": "1 Mark Twain Cir, Saint Louis, MO 63105-1613",
     "date": "2025-03-12",
     "score": 98,
     "critical_count": 0,
     "noncritical_count": 0,
+    "critical_titles": [],
     "source_url": "https",
-    "receipt_cid": "stub-clayton-stuber-concession-2025-03-12"
+    "receipt_cid": "stub-clayton-stuber-concession-2025-03-12",
+    "summary": "0 critical, 0 noncritical"
   },
   {
     "id": "hazelwood-central-2025-03-11",
     "school": "Hazelwood Central Sr High School",
+    "parent": {},
     "address": "15875 New Halls Ferry Rd, Florissant, MO 63031",
     "date": "2025-03-11",
     "score": 100,
     "critical_count": 0,
     "noncritical_count": 0,
+    "critical_titles": [],
     "source_url": "https",
-    "receipt_cid": "stub-hazelwood-central-2025-03-11"
+    "receipt_cid": "stub-hazelwood-central-2025-03-11",
+    "summary": "0 critical, 0 noncritical"
   },
   {
     "id": "ladue-2024-12-13",
     "school": "Ladue Horton Watkins High School",
+    "parent": {},
     "address": "1201 Warson Rd, Ladue, MO 63124",
     "date": "2024-12-13",
     "score": 99,
     "critical_count": 0,
     "noncritical_count": 1,
+    "critical_titles": [],
     "source_url": "https",
-    "receipt_cid": "stub-ladue-2024-12-13"
+    "receipt_cid": "stub-ladue-2024-12-13",
+    "summary": "0 critical, 1 noncritical"
   },
   {
     "id": "clayton-high-school-stuber-gymnasium-concession-2024-10-16-rt",
     "school": "Clayton High School — Stuber Gymnasium Concession",
+    "parent": "Clayton High School",
     "address": "1 Mark Twain Cir, Saint Louis, MO 63105-1613",
     "date": "2024-10-16",
     "score": 100,
     "critical_count": 0,
     "noncritical_count": 0,
+    "critical_titles": [],
     "source_url": "https",
-    "receipt_cid": "stub-clayton-stuber-concession-2024-10-16"
+    "receipt_cid": "stub-clayton-stuber-concession-2024-10-16",
+    "summary": "0 critical, 0 noncritical"
   },
   {
     "id": "hazelwood-central-2024-09-11",
     "school": "Hazelwood Central Sr High School",
+    "parent": {},
     "address": "15875 New Halls Ferry Rd, Florissant, MO 63031",
     "date": "2024-09-11",
     "score": 100,
     "critical_count": 2,
     "noncritical_count": 0,
+    "critical_titles": [
+      "F023 Proper cold holding"
+    ],
     "source_url": "https",
-    "receipt_cid": "stub-hazelwood-central-2024-09-11"
+    "receipt_cid": "stub-hazelwood-central-2024-09-11",
+    "summary": "1 critical, 0 noncritical — e.g., F023 Proper cold holding"
   },
   {
     "id": "hazelwood-central-2024-02-01",
     "school": "Hazelwood Central Sr High School",
+    "parent": {},
     "address": "15875 New Halls Ferry Rd, Florissant, MO 63031",
     "date": "2024-02-01",
     "score": 98,
     "critical_count": 0,
     "noncritical_count": 2,
+    "critical_titles": [],
     "source_url": "https",
-    "receipt_cid": "stub-hazelwood-central-2024-02-01"
+    "receipt_cid": "stub-hazelwood-central-2024-02-01",
+    "summary": "0 critical, 1 noncritical"
   },
   {
     "id": "ladue-2023-12-11",
     "school": "Ladue Horton Watkins High School",
+    "parent": {},
     "address": "1201 Warson Rd, Ladue, MO 63124",
     "date": "2023-12-11",
     "score": 99,
     "critical_count": 1,
     "noncritical_count": 2,
+    "critical_titles": [],
     "source_url": "https",
-    "receipt_cid": "stub-ladue-2023-12-11"
+    "receipt_cid": "stub-ladue-2023-12-11",
+    "summary": "0 critical, 1 noncritical"
   },
   {
     "id": "hazelwood-central-2023-09-21",
     "school": "Hazelwood Central Sr High School",
+    "parent": {},
     "address": "15875 New Halls Ferry Rd, Florissant, MO 63031",
     "date": "2023-09-21",
     "score": 100,
     "critical_count": 0,
     "noncritical_count": 0,
+    "critical_titles": [],
     "source_url": "https",
-    "receipt_cid": "stub-hazelwood-central-2023-09-21"
+    "receipt_cid": "stub-hazelwood-central-2023-09-21",
+    "summary": "0 critical, 0 noncritical"
   },
   {
     "id": "hazelwood-central-2023-01-05",
     "school": "Hazelwood Central Sr High School",
+    "parent": {},
     "address": "15875 New Halls Ferry Rd, Florissant, MO 63031",
     "date": "2023-01-05",
     "score": 100,
     "critical_count": 0,
     "noncritical_count": 0,
+    "critical_titles": [],
     "source_url": "https",
-    "receipt_cid": "stub-hazelwood-central-2023-01-05"
+    "receipt_cid": "stub-hazelwood-central-2023-01-05",
+    "summary": "0 critical, 0 noncritical"
   }
 ]
