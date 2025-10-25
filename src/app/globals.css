@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* ===== Theme Variables ===== */
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -12,6 +13,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* ===== Dark Mode (optional) ===== */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -19,8 +21,56 @@
   }
 }
 
+/* ===== Ensure Full Height Coverage ===== */
+html,
 body {
-  background: var(--background);
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Main Global Styles ===== */
+body {
+  /* Slightly darker soft blue for strong white contrast */
+  background-color: #A7CCF0 !important;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* ===== Link Styling ===== */
+a {
+  color: #0d47a1;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Button Reset (optional for cleaner Tailwind) ===== */
+button {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* ===== Scrollbar (optional aesthetic) ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #dcefff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6daee6;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4c97d8;
 }
