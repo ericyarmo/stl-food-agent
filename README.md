@@ -85,6 +85,7 @@ Imagine every school, nonprofit, and program in St. Louis represented in one ope
 
 Each inspection or event becomes a receipt.
 Each grant or initiative becomes a promise that can be fulfilled or amended.
+
 Searchable by anyone, auditable by everyone.
 
 The Food Agent is one tile in that mosaic. Multiply it by housing, health, education, and arts — and you get a living memory of civic life.
