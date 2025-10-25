@@ -1,0 +1,42 @@
+{
+  "receipt_version": 1,
+  "kind": "food_inspection",
+  "jurisdiction": "St. Louis County, MO",
+  "issuer": "St. Louis County Department of Public Health",
+  "entity": {
+    "type": "school",
+    "name": "Hazelwood Central Sr High School",
+    "parent": {},
+    "address": "15875 New Halls Ferry Rd, Florissant, MO 63031"
+  },
+  "source": {
+    "system": "EnvisionConnect PressAgent (DecadeOnline) – St. Louis County",
+    "url": "https",
+    "fetched_at": "2025-10-25T16"
+  },
+  "inspection": {
+    "id": "hazelwood-central-2025-10-22",
+    "type": "ROUTINE INSPECTION",
+    "date": "2025-10-22",
+    "score": 100,
+    "grade_raw": "100%",
+    "critical_violations": 1,
+    "noncritical_violations": 0,
+    "violations": {
+      "-": {
+        "code": "F022",
+        "title": "Proper hot holding",
+        "critical": true,
+        "corrected_on_site": true,
+        "narrative": "Potentially hazardous foods not held at ≥135°F. Hot dog 116°F on steam table. Corrected"
+      }
+    }
+  },
+  "proof": {
+    "method": "human-transcribed",
+    "attested_by": "Eric Yarmo",
+    "payload_checksum_sha256": "63dd50b4bb2e871c8a4e642ebfc2c2a1aa53c9750b7271519cd92fff27865b18",
+    "cid": "stub-hazelwood-central-2025-10-22",
+    "schema": "UCR/Action/health_inspection@v1"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "receipt_version": 1,
+  "kind": "food_inspection",
+  "jurisdiction": "St. Louis County, MO",
+  "issuer": "St. Louis County Department of Public Health",
+  "entity": {
+    "type": "school",
+    "name": "Clayton High School",
+    "parent": {},
+    "address": "1 Mark Twain Cir, Saint Louis, MO 63105-1613"
+  },
+  "source": {
+    "system": "EnvisionConnect PressAgent (DecadeOnline) – St. Louis County",
+    "url": "https",
+    "fetched_at": "2025-10-25T17"
+  },
+  "inspection": {
+    "id": "clayton-2025-09-29",
+    "type": "ROUTINE INSPECTION",
+    "date": "2025-09-29",
+    "score": 90,
+    "grade_raw": "90%",
+    "critical_violations": 5,
+    "noncritical_violations": 5,
+    "violations": {
+      "-": {
+        "code": "F047",
+        "title": "Adequate ventilation and lighting",
+        "critical": false,
+        "corrected_on_site": false,
+        "narrative": "Lights out on hood system and in prep/dry storage; light out in reach-in cooler."
+      }
+    }
+  },
+  "proof": {
+    "method": "human-transcribed",
+    "attested_by": "Eric Yarmo",
+    "payload_checksum_sha256": "466740700dbf9bc6ec78690b10a2a5c8e4a9eb568a2c02b83ecdfd27801d06bf",
+    "cid": "stub-clayton-2025-09-29",
+    "schema": "UCR/Action/health_inspection@v1"
+  }
+}

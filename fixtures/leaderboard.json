@@ -1,0 +1,34 @@
+[
+  {
+    "school": "Hazelwood Central Sr High School",
+    "address": "15875 New Halls Ferry Rd, Florissant, MO 63031",
+    "latestDate": "2025-10-22",
+    "latestScore": 100,
+    "avg12mo": 100,
+    "criticalsYTD": 1
+  },
+  {
+    "school": "Ladue Horton Watkins High School",
+    "address": "1201 Warson Rd, Ladue, MO 63124",
+    "latestDate": "2024-12-13",
+    "latestScore": 99,
+    "avg12mo": 99,
+    "criticalsYTD": 0
+  },
+  {
+    "school": "Clayton High School — Stuber Gymnasium Concession",
+    "address": "1 Mark Twain Cir, Saint Louis, MO 63105-1613",
+    "latestDate": "2025-03-12",
+    "latestScore": 98,
+    "avg12mo": 98,
+    "criticalsYTD": 0
+  },
+  {
+    "school": "Clayton High School",
+    "address": "1 Mark Twain Cir, Saint Louis, MO 63105-1613",
+    "latestDate": "2025-10-13",
+    "latestScore": 96,
+    "avg12mo": 94.7,
+    "criticalsYTD": 8
+  }
+]

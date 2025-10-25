@@ -1,0 +1,42 @@
+{
+  "receipt_version": 1,
+  "kind": "food_inspection",
+  "jurisdiction": "St. Louis County, MO",
+  "issuer": "St. Louis County Department of Public Health",
+  "entity": {
+    "type": "school",
+    "name": "Ladue Horton Watkins High School",
+    "parent": {},
+    "address": "1201 Warson Rd, Ladue, MO 63124"
+  },
+  "source": {
+    "system": "EnvisionConnect PressAgent (DecadeOnline) – St. Louis County",
+    "url": "https",
+    "fetched_at": "2025-10-25T17"
+  },
+  "inspection": {
+    "id": "ladue-2024-12-13",
+    "type": "ROUTINE INSPECTION",
+    "date": "2024-12-13",
+    "score": 99,
+    "grade_raw": "99%",
+    "critical_violations": 0,
+    "noncritical_violations": 1,
+    "violations": {
+      "-": {
+        "code": "F042",
+        "title": "Warewashing facilities installed, maintained, and test strips provided",
+        "critical": false,
+        "corrected_on_site": false,
+        "narrative": "Test kits not available to measure sanitizer concentration. (4-302.14) A test kit or other device that accurately measures the concentration of sanitizing solutions shall be provided."
+      }
+    }
+  },
+  "proof": {
+    "method": "human-transcribed",
+    "attested_by": "Eric Yarmo",
+    "payload_checksum_sha256": "666285dca8f7e03a4b6614f96d0bdbbf67af09194228b0cc1ef5e25028c9935f",
+    "cid": "stub-ladue-2024-12-13",
+    "schema": "UCR/Action/health_inspection@v1"
+  }
+}

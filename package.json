@@ -2,12 +2,22 @@
   "name": "stl-food-agent",
   "version": "0.1.0",
   "private": true,
+
+  "type" : "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "ingest:receipts": "ts-node scripts/ucr_to_receipts.ts"
+    "ingest:receipts": "ts-node scripts/ucr_to_receipts.ts",
+    "chainge:ingest": "ts-node scripts/ucr_to_receipts.ts",
+    "chainge:build": "ts-node scripts/build_leaderboard.ts",
+    "data:emit-json": "ts-node --compiler-options '{\"module\":\"commonjs\"}' scripts/receipts_to_json.ts",
+    "data:feed": "ts-node --compiler-options '{\"module\":\"commonjs\"}' scripts/build_feed.ts",
+    "data:leaderboard": "ts-node --compiler-options '{\"module\":\"commonjs\"}' scripts/build_leaderboard.ts",
+    "data": "npm run data:emit-json && npm run data:feed && npm run data:leaderboard",
+    "chainge:serve": "next dev",
+    "chainge:deploy": "vercel --prod"
   },
   "dependencies": {
     "next": "16.0.0",

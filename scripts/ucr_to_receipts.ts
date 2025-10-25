@@ -145,6 +145,7 @@ function convert(u: UCR) {
   const md = `---\n${toYAML(fm)}\n---\n`;
   const filePath = path.join(outDir, `${u.time.observed}.md`);
   fs.writeFileSync(filePath, md, "utf8");
+  fs.writeFileSync(filePathMd.replace(/\.md$/,".json"), JSON.stringify(fm, null, 2));
   return filePath;
 }
 

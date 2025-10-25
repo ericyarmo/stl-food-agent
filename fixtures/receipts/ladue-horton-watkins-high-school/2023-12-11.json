@@ -1,0 +1,42 @@
+{
+  "receipt_version": 1,
+  "kind": "food_inspection",
+  "jurisdiction": "St. Louis County, MO",
+  "issuer": "St. Louis County Department of Public Health",
+  "entity": {
+    "type": "school",
+    "name": "Ladue Horton Watkins High School",
+    "parent": {},
+    "address": "1201 Warson Rd, Ladue, MO 63124"
+  },
+  "source": {
+    "system": "EnvisionConnect PressAgent (DecadeOnline) – St. Louis County",
+    "url": "https",
+    "fetched_at": "2025-10-25T17"
+  },
+  "inspection": {
+    "id": "ladue-2023-12-11",
+    "type": "ROUTINE INSPECTION",
+    "date": "2023-12-11",
+    "score": 99,
+    "grade_raw": "99%",
+    "critical_violations": 1,
+    "noncritical_violations": 2,
+    "violations": {
+      "-": {
+        "code": "F040",
+        "title": "Single-use/service articles properly stored and used",
+        "critical": false,
+        "corrected_on_site": false,
+        "narrative": "Single-service items not properly dispensed to protect food/lip contact surfaces. (4-904.11)"
+      }
+    }
+  },
+  "proof": {
+    "method": "human-transcribed",
+    "attested_by": "Eric Yarmo",
+    "payload_checksum_sha256": "c4a146374b6bb2a5ea87e06a26fadb22f8f05ce3da8ac9b21aed2b1f8e686dd1",
+    "cid": "stub-ladue-2023-12-11",
+    "schema": "UCR/Action/health_inspection@v1"
+  }
+}

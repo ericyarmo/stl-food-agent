@@ -1,0 +1,34 @@
+{
+  "receipt_version": 1,
+  "kind": "food_inspection",
+  "jurisdiction": "St. Louis County, MO",
+  "issuer": "St. Louis County Department of Public Health",
+  "entity": {
+    "type": "school",
+    "name": "Clayton High School — Stuber Gymnasium Concession",
+    "parent": "Clayton High School",
+    "address": "1 Mark Twain Cir, Saint Louis, MO 63105-1613"
+  },
+  "source": {
+    "system": "EnvisionConnect PressAgent (DecadeOnline) – St. Louis County",
+    "url": "https",
+    "fetched_at": "2025-10-25T18"
+  },
+  "inspection": {
+    "id": "clayton-high-school-stuber-gymnasium-concession-2025-03-12-rt",
+    "type": "ROUTINE INSPECTION",
+    "date": "2025-03-12",
+    "score": 98,
+    "grade_raw": "98%",
+    "critical_violations": 0,
+    "noncritical_violations": 0,
+    "violations": {}
+  },
+  "proof": {
+    "method": "human-transcribed",
+    "attested_by": "Eric Yarmo",
+    "payload_checksum_sha256": "d5d248d1e6f776539379e55c83dccacf1e06687ac1e05fb30e35d4c531c3724c",
+    "cid": "stub-clayton-stuber-concession-2025-03-12",
+    "schema": "UCR/Action/health_inspection@v1"
+  }
+}

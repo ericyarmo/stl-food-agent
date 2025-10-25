@@ -1,0 +1,42 @@
+{
+  "receipt_version": 1,
+  "kind": "food_inspection",
+  "jurisdiction": "St. Louis County, MO",
+  "issuer": "St. Louis County Department of Public Health",
+  "entity": {
+    "type": "school",
+    "name": "Hazelwood Central Sr High School",
+    "parent": {},
+    "address": "15875 New Halls Ferry Rd, Florissant, MO 63031"
+  },
+  "source": {
+    "system": "DecadeOnline – St. Louis County",
+    "url": "https",
+    "fetched_at": "<NOW_UTC_ISO>"
+  },
+  "inspection": {
+    "id": "hazelwood-central-2024-02-01",
+    "type": "ROUTINE INSPECTION",
+    "date": "2024-02-01",
+    "score": 98,
+    "grade_raw": "98%",
+    "critical_violations": 0,
+    "noncritical_violations": 2,
+    "violations": {
+      "-": {
+        "code": "F043",
+        "title": "Plumbing installed, backflow prevention, hot/cold running water, available, adequate, under pressure",
+        "critical": false,
+        "corrected_on_site": false,
+        "narrative": "Back-flow prevention device on mop sink leaking. (5-205.15) Plumbing system shall be repaired according to law and maintained in good repair."
+      }
+    }
+  },
+  "proof": {
+    "method": "human-transcribed",
+    "attested_by": "Eric Yarmo",
+    "payload_checksum_sha256": "ce4d3f390501b729d5516f7236c73c273eee401f6e89edf1fb2a86fdda8b9eaf",
+    "cid": "stub-hazelwood-central-2024-02-01",
+    "schema": "UCR/Action/health_inspection@v1"
+  }
+}
