@@ -82,8 +82,8 @@ Instead of rebuilding from scratch, cities can build on a shared grammar for tru
 🧠 Toward a Civic Index
 
 Imagine every school, nonprofit, and program in St. Louis represented in one open, verifiable ledger:
-Each inspection or event becomes a receipt.
 
+Each inspection or event becomes a receipt.
 Each grant or initiative becomes a promise that can be fulfilled or amended.
 Searchable by anyone, auditable by everyone.
 
