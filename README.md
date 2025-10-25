@@ -35,6 +35,7 @@ That’s how civic infrastructure should work: durable, remixable, transparent.
 Everything lives in one repo. No hidden services or credentials.
 
 🧾 Receipts
+
 A civic receipt is one atomic record of public trust:
 kind: food_inspection
 entity:
@@ -52,6 +53,7 @@ proof:
 They behave like Git commits for civic life — verifiable, portable, append-only.
 
 🌍 Why open source
+
 This project is MIT-licensed so any school, city, or student group can fork it, swap in new data, and instantly create their own Food Agent, Parks Agent, or Safety Agent.
 
 The primitives — receipts, proofs, and a lightweight index — are universal.
@@ -61,6 +63,7 @@ Open sourcing makes civic infrastructure composable.
 Instead of rebuilding from scratch, cities can build on a shared grammar for trust.
 
 🧠 Toward a Civic Index
+
 Imagine every school, nonprofit, and program in St. Louis represented in one open, verifiable ledger:
 Each inspection or event becomes a receipt.
 
@@ -71,6 +74,7 @@ The Food Agent is one tile in that mosaic. Multiply it by housing, health, educa
 That’s the long-term vision behind Chainge: giving communities the tools to remember themselves.
 
 🪜 Run locally
+
 npm i
 npm run ingest:receipts
 npm run dev
@@ -78,8 +82,10 @@ Then open http://localhost:3000
 Deploy to Vercel in a single click.
 
 🪪 License
+
 MIT — free to fork, remix, and redeploy in your own city.
 
 🙌 Credits
+
 Built by Eric Yarmo and Noah Plattus
 Part of the Chainge STL initiative — building civic operating systems that remember.
