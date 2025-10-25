@@ -1,45 +1,45 @@
 🧭 STL Food Agent
 
-Turning public inspection data into civic memory.
-Built in under 12 hours during the 2025 WashU Skandalaris Hackathon.
+Turning public inspection data into civic memory
+Built in under 12 hours during the 2025 WashU Skandalaris Hackathon
 
 👀 What it is
 
-STL Food Agent is a compact proof that public data can be alive and verifiable.
-We scraped St. Louis County’s food-inspection pages — tangled frames, old scripts, zero API — and turned them into civic receipts: clean Markdown + YAML files anyone can read, verify, or reuse.
+STL Food Agent is a small proof that public data can be both alive and verifiable.
+We pulled St. Louis County’s food-inspection pages—tangled frames, outdated scripts, no API—and turned them into civic receipts: plain Markdown + YAML files anyone can read or reuse.
 
-Those receipts drive a static dashboard and a chat agent that can answer:
+Those receipts feed a static dashboard and a chat agent that can answer:
 
 “Show me Clayton High School’s inspections.”
 “Which schools had critical violations this year?”
 “Compare Ladue vs Hazelwood.”
 
-No database, no cloud services — just files, flow, and public proof.
+No database, no backend. Just files and public proof.
 
-💡 Why we went no-code (ish)
+💡 Why no-code(ish)
 
-The goal wasn’t another web app. It was legibility.
-By keeping everything in plain text, we lowered the barrier for students, reporters, or local officials to see and trust their own data.
-
-A folder of receipts is readable by an LLM, a spreadsheet, or a human. That’s how civic infrastructure should work: durable, remixable, transparent.
+The goal wasn’t another dashboard—it was legibility.
+Keeping data in plain text makes it transparent to students, reporters, or local officials.
+A folder of receipts is readable by a human, a spreadsheet, or an LLM.
+Civic infrastructure should be durable, remixable, and simple.
 
 🧱 How we built it
 
-12 hours of actual build time inside a 40 hour window
+12 hours of real build time inside a 40 hour window
 
-2 people: one on data + architecture, one on design + visual polish
+2 people: data + architecture / design + polish
 
-Stack: Next.js 15 / Tailwind / TypeScript / Vercel
+Stack: Next.js 15 · Tailwind · TypeScript · Vercel
 
 Data: static JSON + Markdown receipts
 
-AI layer: simple prompt router that turns questions into queries over fixtures
+AI layer: a tiny prompt router turning questions into queries over fixtures
 
-Everything lives in one repo — no hidden APIs or credentials.
+Everything lives in one repo—no hidden services or credentials.
 
 🧾 Receipts
 
-A civic receipt = one atomic record of public trust.
+A civic receipt is one atomic record of public trust:
 
 kind: food_inspection
 entity:
@@ -55,30 +55,26 @@ proof:
   attested_by: Eric Yarmo
 
 
-They behave like Git commits for civic life — verifiable, portable, append-only.
+Think of them as Git commits for civic life—verifiable, portable, append-only.
 
 🌍 Why open source
 
-We’re releasing this under MIT so that schools, cities, and student groups can fork it, replace the data source, and instantly create their own Food Agent, Parks Agent, or Safety Agent.
+Released under MIT so any school, city, or student group can fork it, swap in their own data, and launch a Food Agent, Parks Agent, or Safety Agent.
 
-The primitives — receipts, proofs, and a lightweight index — are universal.
-Any city department could drop their CSVs into /fixtures/ingest and publish verified dashboards in hours, not months.
+The primitives—receipts, proofs, a lightweight index—are reusable.
+Drop new data into /fixtures/ingest and publish verified dashboards in hours.
 
-Open sourcing makes civic infrastructure composable. Instead of every agency hiring consultants to build from scratch, they can build on top of one shared grammar.
+Open sourcing makes civic infrastructure composable. Instead of rebuilding from scratch, cities can share a grammar for trust.
 
-🧠 What a full Civic Index could be
+🧠 Toward a Civic Index
 
-Imagine every school, nonprofit, and public program in St. Louis represented as a node in one open, verifiable ledger — a Civic Index.
-
-Each event or inspection becomes a receipt.
-
-Each promise (a grant, an initiative) becomes a contract that can be fulfilled or amended.
-
+Picture every school, nonprofit, and program in St. Louis as a node in one open, verifiable ledger.
+Each inspection or event becomes a receipt.
+Each grant or initiative becomes a promise that can be fulfilled or amended.
 Searchable by anyone, auditable by everyone.
 
-The Food Agent is a single tile in that mosaic. Multiply it by housing, health, education, arts — and you get a living memory of civic life: something funders, volunteers, and policymakers can actually navigate.
-
-That’s the long-term vision behind Chainge, giving communities the tools to remember themselves.
+The Food Agent is one tile in that mosaic. Multiply it by housing, health, education, arts, and you get a living memory of the city itself.
+That’s the long-term vision behind Chainge — helping communities remember themselves.
 
 🪜 Run locally
 npm i
@@ -96,5 +92,5 @@ MIT — free to fork, remix, and redeploy in your own city.
 
 🙌 Credits
 
-Built by Eric Yarmo and Noah PLattus
-Part of the broader Chainge STL initiative — building civic operating systems that remember.
+Built by Eric Yarmo and Noah Plattus
+Part of the Chainge STL initiative — building civic operating systems that remember.
