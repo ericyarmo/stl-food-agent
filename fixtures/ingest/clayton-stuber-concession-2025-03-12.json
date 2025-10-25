@@ -1,0 +1,19 @@
+{
+    "schema": "UCR/Action/health_inspection@v1",
+    "subject": { "type": "venue", "id": "Clayton High School — Stuber Gymnasium Concession" },
+    "payload": {
+      "inspection_id": "",
+      "inspection_type": "ROUTINE INSPECTION",
+      "score_100": 98,
+      "grade_raw": "98%",
+      "violations": []
+    },
+    "evidence": {
+      "source_system": "EnvisionConnect PressAgent (DecadeOnline) – St. Louis County",
+      "source_url": "https://pressagent.envisionconnect.com/insp.phtml?agency=STL&record_id=<RECORD_ID_STUBER>",
+      "checksum_sha256": ""
+    },
+    "time": { "observed": "2025-03-12", "ingested": "2025-10-25T18:30:00Z" },
+    "cid": "stub-clayton-stuber-concession-2025-03-12"
+  }
+  
