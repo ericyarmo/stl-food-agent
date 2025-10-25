@@ -89,14 +89,19 @@ Each grant or initiative becomes a promise that can be fulfilled or amended.
 Searchable by anyone, auditable by everyone.
 
 The Food Agent is one tile in that mosaic. Multiply it by housing, health, education, and arts — and you get a living memory of civic life.
-That’s the long-term vision behind Chainge: giving communities the tools to remember themselves.
+
+**That’s the long-term vision behind Chainge: giving communities the tools to remember themselves.**
 
 🪜 Run locally
 
 npm i
+
 npm run ingest:receipts
+
 npm run dev
+
 Then open http://localhost:3000
+
 Deploy to Vercel in a single click.
 
 🪪 License
