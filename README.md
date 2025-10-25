@@ -10,8 +10,11 @@ It pulls St. Louis County’s food-inspection pages — tangled frames, legacy s
 Those receipts power a static dashboard and a chat agent that can answer:
 
 “Show me Clayton High School’s inspections.”
+
 “Which schools had critical violations this year?”
+
 “Compare Ladue vs Hazelwood.”
+
 
 No database, no backend — just files and public proof.
 
