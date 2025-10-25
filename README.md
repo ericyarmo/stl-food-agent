@@ -87,5 +87,5 @@ MIT — free to fork, remix, and redeploy in your own city.
 
 🙌 Credits
 
-Built by Eric Yarmo and Noah Plattus
+Built by Eric Yarmo and Noah Plattus.
 Part of the Chainge STL initiative — building civic operating systems that remember.
