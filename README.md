@@ -37,18 +37,31 @@ Everything lives in one repo. No hidden services or credentials.
 🧾 Receipts
 
 A civic receipt is one atomic record of public trust:
+
 kind: food_inspection
+
 entity:
+
   name: Hazelwood Central Sr High School
+  
   address: 15875 New Halls Ferry Rd, Florissant MO 63031
+  
 inspection:
+
   date: 2025-10-22
+  
   score: 100
+  
   violations: [...]
+  
 source:
+
   url: https://pressagent.envisionconnect.com/insp.phtml?agency=STL&record_id=PR0003910
+  
 proof:
+
   attested_by: Eric Yarmo
+  
 
 They behave like Git commits for civic life — verifiable, portable, append-only.
 
