@@ -203,7 +203,7 @@ function FeedView({ data }: { data: FeedItem[] }) {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search schools…"
-        className="w-full rounded-xl border px-3 py-2"
+        className="w-full rounded-xl border-2 border-white/70 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 px-4 py-2 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
       />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         {list.map((item) => (
@@ -232,14 +232,14 @@ function LeaderboardView({ rows }: { rows: LeaderRow[] }) {
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2">
-        <span className="text-sm text-gray-600">Sort by</span>
+        <span className="text-sm text-black/60">SORT BY</span>
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value as any)}
-          className="rounded-lg border px-2 py-1 text-sm"
+          className="rounded-lg border border-white/30 bg-white/20 text-black/90 text-sm px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-white/40 hover:bg-white/25 transition"
         >
-          <option value="latest">Latest score</option>
-          <option value="avg">Avg last 12 mo</option>
+          <option value="latest">Latest Score</option>
+          <option value="avg">Avg Last 12 Mo</option>
           <option value="criticals">Criticals YTD</option>
         </select>
       </div>
@@ -311,6 +311,31 @@ export default function Page() {
       </header>
 
       <Tabs value={tab} onChange={setTab} />
+
+      {/* ⬇️ Add this block right here ⬇️ */}
+      <div className="mt-2 p-3 rounded-md bg-white/60 shadow-sm text-sm text-gray-800">
+        <p className="font-semibold text-gray-900 mb-1">Understanding Inspection Scores</p>
+        <p className="mb-2 text-gray-700">
+          St. Louis County assigns food inspection grades based on sanitation and safety standards.
+          Scores translate into letter grades as follows:
+        </p>
+        <div className="flex flex-wrap gap-3 items-center">
+          <span className="px-2 py-1 rounded bg-green-200 text-green-800 font-medium">
+            A · 90–100 · Excellent
+          </span>
+          <span className="px-2 py-1 rounded bg-yellow-200 text-yellow-800 font-medium">
+            B · 80–89 · Satisfactory
+          </span>
+          <span className="px-2 py-1 rounded bg-red-200 text-red-800 font-medium">
+            C · Below 80 · Requires Correction
+          </span>
+        </div>
+        <p className="mt-2 text-gray-700">
+          Inspections are unannounced and focus on food handling, temperature control,
+          sanitation, and pest management.
+        </p>
+      </div>
+      {/* ⬆️ End of score key block ⬆️ */}
 
       {tab === "feed" ? (
         <FeedView data={feed as FeedItem[]} />
