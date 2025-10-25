@@ -1,0 +1,24 @@
+{
+  "schema": "UCR/Action/health_inspection@v1",
+  "subject": {
+    "type": "venue",
+    "id": "Hazelwood Central Sr High School"
+  },
+  "payload": {
+    "inspection_id": "hazelwood-central-2023-09-21",
+    "inspection_type": "ROUTINE INSPECTION",
+    "score_100": 100,
+    "grade_raw": "100%",
+    "violations": []
+  },
+  "evidence": {
+    "source_system": "DecadeOnline – St. Louis County",
+    "source_url": "https://pressagent.envisionconnect.com/insp.phtml?agency=STL&record_id=PR0003910",
+    "checksum_sha256": ""
+  },
+  "time": {
+    "observed": "2023-09-21",
+    "ingested": "<NOW_UTC_ISO>"
+  },
+  "cid": "stub-hazelwood-central-2023-09-21"
+}

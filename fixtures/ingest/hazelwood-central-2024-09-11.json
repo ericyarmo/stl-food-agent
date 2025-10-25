@@ -1,0 +1,39 @@
+{
+  "schema": "UCR/Action/health_inspection@v1",
+  "subject": {
+    "type": "venue",
+    "id": "Hazelwood Central Sr High School"
+  },
+  "payload": {
+    "inspection_id": "hazelwood-central-2024-09-11",
+    "inspection_type": "ROUTINE INSPECTION",
+    "score_100": 100,
+    "grade_raw": "100%",
+    "violations": [
+      {
+        "code": "F022",
+        "title": "Proper hot holding",
+        "narrative": "Potentially hazardous foods not being held at 135F(57C) or above for hot hold. (3-501.16) ... Hamburger patty 124F wrapped on counter; Chicken n rice 127F warmer. Corrected by using 4 hr time as control; cooked to 151F–160F; discarded before 2 pm.",
+        "critical": true,
+        "corrected_on_site": true
+      },
+      {
+        "code": "F023",
+        "title": "Proper cold holding",
+        "narrative": "Potentially hazardous foods not being held at 41F (5C) or below for cold hold. (3-501.16). Milk 46F in milk cooler 1. Corrected by manager discarding milk.",
+        "critical": true,
+        "corrected_on_site": true
+      }
+    ]
+  },
+  "evidence": {
+    "source_system": "DecadeOnline – St. Louis County",
+    "source_url": "https://pressagent.envisionconnect.com/insp.phtml?agency=STL&record_id=PR0003910",
+    "checksum_sha256": ""
+  },
+  "time": {
+    "observed": "2024-09-11",
+    "ingested": "<NOW_UTC_ISO>"
+  },
+  "cid": "stub-hazelwood-central-2024-09-11"
+}

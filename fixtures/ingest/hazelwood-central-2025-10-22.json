@@ -1,0 +1,26 @@
+{
+  "schema": "UCR/Action/health_inspection@v1",
+  "subject": { "type": "venue", "id": "Hazelwood Central Sr High School" },
+  "payload": {
+    "inspection_id": "hazelwood-central-2025-10-22",
+    "inspection_type": "ROUTINE INSPECTION",
+    "score_100": 100,
+    "grade_raw": "100%",
+    "violations": [
+      {
+        "code": "F022",
+        "title": "Proper hot holding",
+        "narrative": "Potentially hazardous foods not held at ≥135°F. Hot dog 116°F on steam table. Corrected: moved; hot dog 153°F. Affected items served/discarded within 4 hrs per manager.",
+        "critical": true,
+        "corrected_on_site": true
+      }
+    ]
+  },
+  "evidence": {
+    "source_system": "EnvisionConnect PressAgent (DecadeOnline) – St. Louis County",
+    "source_url": "https://pressagent.envisionconnect.com/insp.phtml?agency=STL&record_id=PR0003910",
+    "checksum_sha256": ""
+  },
+  "time": { "observed": "2025-10-22", "ingested": "2025-10-25T16:00:00Z" },
+  "cid": "stub-hazelwood-central-2025-10-22"
+}
