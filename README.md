@@ -96,7 +96,7 @@ The Food Agent is one tile in that mosaic. Multiply it by housing, health, educa
 
 npm i
 
-npm run ingest:receipts
+npm run data
 
 npm run dev
 
