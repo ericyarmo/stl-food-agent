@@ -459,6 +459,17 @@ export default function Page() {
         ))}
       </div>
 
+      <footer className="mt-6 text-center text-sm text-gray-500">
+    <a
+      href="https://github.com/ericyarmo/stl-food-agent"
+      target="_blank"
+      rel="noreferrer"
+      className="underline hover:text-gray-700"
+    >
+      github.com/ericyarmo/stl-food-agent
+    </a>
+  </footer>
+
       <div className="mt-2 p-3 rounded-md bg-white/60 shadow-sm text-sm text-gray-800">
         <p className="font-semibold text-gray-900 mb-1">
           Understanding Inspection Scores
