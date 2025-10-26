@@ -1,6 +1,8 @@
 // scripts/_receipts_io.ts
 import fs from "node:fs";
 import path from "node:path";
+import { walk } from "./_receipts_io.ts"; // if you import it here, add .ts too
+
 
 export type Receipt = {
   jurisdiction: string;

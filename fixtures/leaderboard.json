@@ -5,8 +5,7 @@
     "latestDate": "2025-10-22",
     "latestScore": 100,
     "avg12mo": 100,
-    "criticalsYTD": 1,
-    "latestCriticals": []
+    "criticalsYTD": 1
   },
   {
     "school": "Ladue Horton Watkins High School",
@@ -14,8 +13,7 @@
     "latestDate": "2024-12-13",
     "latestScore": 99,
     "avg12mo": 99,
-    "criticalsYTD": 0,
-    "latestCriticals": []
+    "criticalsYTD": 0
   },
   {
     "school": "Clayton High School — Stuber Gymnasium Concession",
@@ -23,8 +21,7 @@
     "latestDate": "2025-03-12",
     "latestScore": 98,
     "avg12mo": 98,
-    "criticalsYTD": 0,
-    "latestCriticals": []
+    "criticalsYTD": 0
   },
   {
     "school": "Clayton High School",
@@ -32,7 +29,6 @@
     "latestDate": "2025-10-13",
     "latestScore": 96,
     "avg12mo": 94.7,
-    "criticalsYTD": 8,
-    "latestCriticals": []
+    "criticalsYTD": 8
   }
 ]

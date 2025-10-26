@@ -3,23 +3,25 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 
-// Static imports keep this serverless and fast
-import feed from "../../fixtures/feed.json" assert { type: "json" };
-import leaderboard from "../../fixtures/leaderboard.json" assert { type: "json" };
+// Static JSON = zero server work, deploy-friendly
+import feedData from "../../fixtures/feed.json" assert { type: "json" };
+import boardData from "../../fixtures/leaderboard.json" assert { type: "json" };
 
 type FeedItem = {
   id: string;
   school: string;
+  parent?: string;
   address?: string;
-  date: string; // YYYY-MM-DD
-  score: number; // 0..100
+  date: string;        // YYYY-MM-DD
+  score: number;       // 0..100
   critical_count: number;
-  noncritical_count?: number;
+  noncritical_count: number;
   source_url: string;
   receipt_cid?: string;
+  criticals?: { code: string; title: string }[];
 };
 
-type LeaderRow = {
+type Row = {
   school: string;
   address?: string;
   latestDate: string;
@@ -28,45 +30,104 @@ type LeaderRow = {
   criticalsYTD: number;
 };
 
-function Tabs({
-  value,
-  onChange,
+function normalizeUrl(u: string) {
+  if (!u) return "#";
+  const s = u.trim();
+  if (/^https?:\/\//i.test(s)) return s;
+  if (s.startsWith("//")) return "https:" + s;
+  return "https://" + s.replace(/^\/+/, "");
+}
+
+function Chip({
+  children,
+  className = "",
 }: {
-  value: "feed" | "leaderboard";
-  onChange: (v: any) => void;
+  children: React.ReactNode;
+  className?: string;
 }) {
   return (
-    <div className="flex gap-2 mb-4">
-      {(["feed", "leaderboard"] as const).map((key) => {
-        const isActive = value === key;
-        return (
+    <span className={`px-2 py-0.5 rounded-full text-xs border ${className}`}>
+      {children}
+    </span>
+  );
+}
+
+function FeedCard({
+  item,
+  onVerify,
+}: {
+  item: FeedItem;
+  onVerify: (it: FeedItem) => void;
+}) {
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-4 flex flex-col gap-3">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <h3 className="font-semibold leading-tight text-black">{item.school}</h3>
+          {item.parent && <div className="text-xs text-gray-500">{item.parent}</div>}
+          {item.address && <div className="text-sm text-gray-500">{item.address}</div>}
+        </div>
+        <div className="text-right">
+          <div className="text-2xl font-bold leading-none text-emerald-600">
+            {item.score}
+          </div>
+          <div className="text-xs text-gray-500">score</div>
+        </div>
+      </div>
+
+      {/* latest critical titles (if present) */}
+      {item.criticals && item.criticals.length > 0 && (
+        <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg p-2">
+          <div className="font-medium mb-1">Latest criticals</div>
+          <ul className="list-disc pl-5 space-y-0.5">
+            {item.criticals.map((c, i) => (
+              <li key={i}>
+                {c.code && <span className="font-mono">{c.code}</span>}
+                {c.code && c.title ? " · " : ""}
+                {c.title}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className="flex items-center justify-between text-sm">
+        <span className="text-gray-600">{item.date}</span>
+        <div className="flex items-center gap-2">
+          <Chip className="border-red-600 text-red-600">
+            {item.critical_count} critical
+          </Chip>
           <button
-            key={key}
-            onClick={() => onChange(key)}
-            className={`px-3 py-1.5 rounded-xl text-sm border transition ${
-              isActive
-                ? "bg-white text-black border-white shadow-sm"
-                : "bg-black text-white border-white/40 hover:border-white"
-            }`}
+            onClick={() => onVerify(item)}
+            className="underline text-black hover:text-gray-700"
           >
-            {key === "feed" ? "Feed" : "Leaderboard"}
+            Verify
           </button>
-        );
-      })}
+        </div>
+      </div>
+
+      <div className="pt-2 border-t text-sm">
+        <a
+          className="underline text-black hover:text-gray-700"
+          href={normalizeUrl(item.source_url)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View source
+        </a>
+      </div>
     </div>
   );
 }
 
 function VerifyModal({
-  open,
-  onClose,
   item,
+  onClose,
 }: {
-  open: boolean;
-  onClose: () => void;
   item: FeedItem | null;
+  onClose: () => void;
 }) {
-  if (!open || !item) return null;
+  if (!item) return null;
   return (
     <div
       className="fixed inset-0 z-50 grid place-items-center bg-black/40 p-4"
@@ -82,20 +143,40 @@ function VerifyModal({
         </div>
         <div className="p-4 space-y-3 text-sm text-black">
           <div className="grid grid-cols-3 gap-2">
-            <span className="text-black">Date</span>
-            <span className="col-span-2 text-black">{item.date}</span>
-            <span className="text-black">Score</span>
-            <span className="col-span-2 text-black">{item.score}</span>
-            <span className="text-black">Criticals</span>
-            <span className="col-span-2 text-black">{item.critical_count}</span>
+            <span>Date</span>
+            <span className="col-span-2">{item.date}</span>
+            <span>Score</span>
+            <span className="col-span-2">{item.score}</span>
+            <span>Criticals</span>
+            <span className="col-span-2">{item.critical_count}</span>
           </div>
+
+          {item.criticals && item.criticals.length > 0 && (
+            <>
+              <div className="h-px bg-gray-200" />
+              <div>
+                <div className="font-semibold mb-1">Critical items</div>
+                <ul className="list-disc pl-5 space-y-0.5">
+                  {item.criticals.map((c, i) => (
+                    <li key={i}>
+                      {c.code && <span className="font-mono">{c.code}</span>}
+                      {c.code && c.title ? " · " : ""}
+                      {c.title}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </>
+          )}
+
           <div className="h-px bg-gray-200" />
           <div className="grid grid-cols-3 gap-2">
-            <span className="text-black">Source</span>
+            <span>Source</span>
             <span className="col-span-2 break-all">
               <a
-                href={item.source_url}
+                href={normalizeUrl(item.source_url)}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="underline text-black hover:text-gray-700"
               >
                 PressAgent facility page
@@ -103,16 +184,16 @@ function VerifyModal({
             </span>
             {item.receipt_cid && (
               <>
-                <span className="text-black">Receipt CID</span>
-                <span className="col-span-2 font-mono text-xs text-black">
+                <span>Receipt CID</span>
+                <span className="col-span-2 font-mono text-xs">
                   {item.receipt_cid}
                 </span>
               </>
             )}
           </div>
-          <p className="text-xs text-black">
-            Normalized snapshot from public records. Receipts are Markdown+YAML
-            so anyone can audit.
+          <p className="text-xs text-gray-600">
+            Normalized snapshot from public records. Receipts are
+            Markdown+YAML so anyone can audit.
           </p>
         </div>
         <div className="p-4 flex justify-end gap-2 border-t">
@@ -128,73 +209,20 @@ function VerifyModal({
   );
 }
 
-function FeedCard({
-  item,
-  onVerify,
-}: {
-  item: FeedItem;
-  onVerify: (it: FeedItem) => void;
-}) {
-  return (
-    <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-4 flex flex-col gap-3">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          {/* School name bold & black */}
-          <h3 className="font-semibold leading-tight text-black">
-            {item.school}
-          </h3>
-          {item.address && (
-            <p className="text-sm text-gray-500">{item.address}</p>
-          )}
-        </div>
-        <div className="text-right">
-          {/* Score green */}
-          <div className="text-2xl font-bold leading-none text-emerald-600">
-            {item.score}
-          </div>
-          <div className="text-xs text-gray-500">score</div>
-        </div>
-      </div>
-      <div className="flex items-center justify-between text-sm">
-        <span className="text-gray-600">{item.date}</span>
-        <div className="flex items-center gap-2">
-          {/* Critical count in red */}
-          <span className="rounded-full border border-red-600 text-red-600 px-2 py-0.5 text-xs">
-            {item.critical_count} critical
-          </span>
-          {/* Verify in black */}
-          <button
-            onClick={() => onVerify(item)}
-            className="text-sm text-black underline underline-offset-2 hover:text-gray-700"
-          >
-            Verify
-          </button>
-        </div>
-      </div>
-      {/* View source in black */}
-      <div className="pt-2 border-t text-sm">
-        <a
-          className="underline text-black hover:text-gray-700"
-          href={item.source_url}
-          target="_blank"
-        >
-          View source
-        </a>
-      </div>
-    </div>
-  );
-}
-
-function FeedView({ data }: { data: FeedItem[] }) {
+function Feed({ data }: { data: FeedItem[] }) {
   const [query, setQuery] = useState("");
-  const [verifyItem, setVerifyItem] = useState<FeedItem | null>(null);
+  const [verify, setVerify] = useState<FeedItem | null>(null);
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const filtered = q
-      ? data.filter((d) => d.school.toLowerCase().includes(q))
+    const f = q
+      ? data.filter(
+          (d) =>
+            d.school.toLowerCase().includes(q) ||
+            (d.parent || "").toLowerCase().includes(q)
+        )
       : data;
-    return [...filtered].sort((a, b) => (a.date < b.date ? 1 : -1));
+    return [...f].sort((a, b) => (a.date < b.date ? 1 : -1));
   }, [data, query]);
 
   return (
@@ -206,27 +234,23 @@ function FeedView({ data }: { data: FeedItem[] }) {
         className="w-full rounded-xl border-2 border-white/70 bg-white/80 backdrop-blur-sm text-gray-900 placeholder-gray-500 px-4 py-2 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
       />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-        {list.map((item) => (
-          <FeedCard key={item.id} item={item} onVerify={setVerifyItem} />
+        {list.map((it) => (
+          <FeedCard key={it.id} item={it} onVerify={setVerify} />
         ))}
       </div>
-      <VerifyModal
-        open={!!verifyItem}
-        onClose={() => setVerifyItem(null)}
-        item={verifyItem}
-      />
+      <VerifyModal item={verify} onClose={() => setVerify(null)} />
     </div>
   );
 }
 
-function LeaderboardView({ rows }: { rows: LeaderRow[] }) {
+function Leaderboard({ rows }: { rows: Row[] }) {
   const [sort, setSort] = useState<"latest" | "avg" | "criticals">("latest");
   const sorted = useMemo(() => {
-    const copy = [...rows];
-    if (sort === "latest") copy.sort((a, b) => b.latestScore - a.latestScore);
-    if (sort === "avg") copy.sort((a, b) => b.avg12mo - a.avg12mo);
-    if (sort === "criticals") copy.sort((a, b) => a.criticalsYTD - b.criticalsYTD);
-    return copy;
+    const c = [...rows];
+    if (sort === "latest") c.sort((a, b) => b.latestScore - a.latestScore);
+    if (sort === "avg") c.sort((a, b) => b.avg12mo - a.avg12mo);
+    if (sort === "criticals") c.sort((a, b) => a.criticalsYTD - b.criticalsYTD);
+    return c;
   }, [rows, sort]);
 
   return (
@@ -236,7 +260,7 @@ function LeaderboardView({ rows }: { rows: LeaderRow[] }) {
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value as any)}
-          className="rounded-lg border border-white/30 bg-white/20 text-black/90 text-sm px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-white/40 hover:bg-white/25 transition"
+          className="rounded-lg border border-white/30 bg-white/20 text-black/90 text-sm px-3 py-1.5"
         >
           <option value="latest">Latest Score</option>
           <option value="avg">Avg Last 12 Mo</option>
@@ -256,15 +280,21 @@ function LeaderboardView({ rows }: { rows: LeaderRow[] }) {
           <tbody>
             {sorted.map((r) => (
               <tr key={r.school} className="bg-white rounded-xl shadow-sm">
-                <td className="px-3 py-2 font-semibold text-gray-600">
-                  <div className="font-medium">{r.school}</div>
+                <td className="px-3 py-2 font-semibold text-gray-700">
+                  <div>{r.school}</div>
                   {r.address && (
                     <div className="text-xs text-gray-500">{r.address}</div>
                   )}
                 </td>
-                <td className="px-3 py-2 font-semibold text-emerald-600">{r.latestScore}</td>
-                <td className="px-3 py-2 text-emerald-600">{r.avg12mo.toFixed(1)}</td>
-                <td className="px-3 py-2 font-semibold text-red-600">{r.criticalsYTD}</td>
+                <td className="px-3 py-2 font-semibold text-emerald-600">
+                  {r.latestScore}
+                </td>
+                <td className="px-3 py-2 text-emerald-600">
+                  {r.avg12mo.toFixed(1)}
+                </td>
+                <td className="px-3 py-2 font-semibold text-red-600">
+                  {r.criticalsYTD}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -278,7 +308,6 @@ export default function Page() {
   const [tab, setTab] = useState<"feed" | "leaderboard">("feed");
   return (
     <main className="mx-auto max-w-6xl p-4 md:p-6 space-y-6">
-      {/* Header with logo inline */}
       <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
         <div className="flex items-center gap-3">
           <Image
@@ -301,23 +330,42 @@ export default function Page() {
         </div>
         <div className="flex gap-2">
           <a
-            href="https://pressagent.envisionconnect.com/"
+            href="https://stlouiscountymo.gov/st-louis-county-departments/public-health/food-and-restaurants/inspections/"
             target="_blank"
-            className="px-3 py-1.5 rounded-xl border hover:bg-gray-50"
+            rel="noopener noreferrer"
+            className="px-3 py-1.5 rounded-xl border hover:bg-gray-50 bg-white/70"
           >
             County Portal
           </a>
         </div>
       </header>
 
-      <Tabs value={tab} onChange={setTab} />
+      <div className="flex gap-2 mb-2">
+        <button
+          onClick={() => setTab("feed")}
+          className={`px-3 py-1.5 rounded-xl text-sm border ${
+            tab === "feed"
+              ? "bg-white text-black border-white"
+              : "bg-black text-white border-white/40"
+          }`}
+        >
+          Feed
+        </button>
+        <button
+          onClick={() => setTab("leaderboard")}
+          className={`px-3 py-1.5 rounded-xl text-sm border ${
+            tab === "leaderboard"
+              ? "bg-white text-black border-white"
+              : "bg-black text-white border-white/40"
+          }`}
+        >
+          Leaderboard
+        </button>
+      </div>
 
-      {/* ⬇️ Add this block right here ⬇️ */}
       <div className="mt-2 p-3 rounded-md bg-white/60 shadow-sm text-sm text-gray-800">
-        <p className="font-semibold text-gray-900 mb-1">Understanding Inspection Scores</p>
-        <p className="mb-2 text-gray-700">
-          St. Louis County assigns food inspection grades based on sanitation and safety standards.
-          Scores translate into letter grades as follows:
+        <p className="font-semibold text-gray-900 mb-1">
+          Understanding Inspection Scores
         </p>
         <div className="flex flex-wrap gap-3 items-center">
           <span className="px-2 py-1 rounded bg-green-200 text-green-800 font-medium">
@@ -330,20 +378,15 @@ export default function Page() {
             C · Below 80 · Requires Correction
           </span>
         </div>
-        <p className="mt-2 text-gray-700">
-          Inspections are unannounced and focus on food handling, temperature control,
-          sanitation, and pest management.
-        </p>
       </div>
-      {/* ⬆️ End of score key block ⬆️ */}
 
       {tab === "feed" ? (
-        <FeedView data={feed as FeedItem[]} />
+        <Feed data={feedData as FeedItem[]} />
       ) : (
-        <LeaderboardView rows={leaderboard as LeaderRow[]} />
+        <Leaderboard rows={boardData as Row[]} />
       )}
 
-      <footer className="pt-8 text-xs text-gray-500">
+      <footer className="pt-8 text-xs text-gray-600">
         Built in under 12 hours · MIT License · Data from St. Louis County DPH
       </footer>
     </main>
