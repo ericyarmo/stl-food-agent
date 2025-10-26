@@ -7,10 +7,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "data:emit-json": "node --loader ts-node/esm scripts/receipts_to_json.ts",
+    "data:emit-json": "tsx scripts/receipts_to_json.ts",
+    "data:patch": "tsx scripts/patch_source_urls.ts",
     "data:feed": "tsx scripts/build_feed.ts",
     "data:leaderboard": "tsx scripts/build_leaderboard.ts",
-    "data": "npm run data:emit-json && npm run data:feed && npm run data:leaderboard"
+   "data": "npm run data:emit-json && npm run data:patch && npm run data:feed && npm run data:leaderboard"
   },
   "dependencies": {
     "next": "^14.2.33",

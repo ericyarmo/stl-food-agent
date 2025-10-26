@@ -111,12 +111,12 @@ function FeedCard({
 
       <div className="pt-2 border-t text-sm">
         <a
-          className="underline text-black hover:text-gray-700"
-          href={normalizeUrl(item.source_url)}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          County portal (PressAgent)
+            className="underline text-black hover:text-gray-700"
+            href={normalizeUrl(item.source_url)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            County portal (PressAgent)
         </a>
       </div>
     </div>
@@ -352,7 +352,7 @@ function ChatDemo() {
           <button
             key={p}
             onClick={() => send(p)}
-            className="px-3 py-1.5 rounded-full bg-white/80 border hover:bg-gray-900" 
+            className="px-3 py-1.5 rounded-full bg-#4c97d8 border hover:bg-gray-900" 
           >
             {p}
           </button>

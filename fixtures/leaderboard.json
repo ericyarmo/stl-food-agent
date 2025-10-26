@@ -1,7 +1,7 @@
 [
   {
     "school": "Hazelwood Central Sr High School",
-    "parent": "",
+    "parent": {},
     "address": "15875 New Halls Ferry Rd, Florissant, MO 63031",
     "latestDate": "2025-10-22",
     "latestScore": 100,
@@ -10,7 +10,7 @@
   },
   {
     "school": "Ladue Horton Watkins High School",
-    "parent": "",
+    "parent": {},
     "address": "1201 Warson Rd, Ladue, MO 63124",
     "latestDate": "2024-12-13",
     "latestScore": 99,
@@ -28,7 +28,7 @@
   },
   {
     "school": "Clayton High School",
-    "parent": "",
+    "parent": {},
     "address": "1 Mark Twain Cir, Saint Louis, MO 63105-1613",
     "latestDate": "2025-10-13",
     "latestScore": 96,
