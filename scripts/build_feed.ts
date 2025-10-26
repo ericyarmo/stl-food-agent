@@ -1,70 +1,85 @@
 // scripts/build_feed.ts
 import fs from "node:fs";
 import path from "node:path";
-import { loadAllReceipts, safeWriteJSON } from "./_receipts_io.ts";
 
-type Out = {
-  id: string;
-  school: string;
-  parent?: string;
-  address?: string;
-  date: string;
-  score: number;
-  critical_count: number;
-  noncritical_count: number;
-  source_url: string;
-  receipt_cid?: string;
-  criticals?: { code: string; title: string }[];
+type Receipt = {
+  entity: { name: string; parent?: unknown; address?: string };
+  source: { url: string };
+  inspection: {
+    id: string;
+    date: string;
+    score: number;
+    critical_violations?: number;
+    noncritical_violations?: number;
+    violations?: {
+      code: string;
+      title: string;
+      narrative?: string;
+      critical?: boolean;
+      corrected_on_site?: boolean;
+    }[];
+  };
+  proof?: { cid?: string };
 };
 
-function asArray<T = any>(x: unknown): T[] {
-  if (Array.isArray(x)) return x;
-  if (x && typeof x === "object") return Object.values(x as Record<string, T>);
-  return [];
+function* walk(dir: string): Generator<string> {
+  if (!fs.existsSync(dir)) return;
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) yield* walk(p);
+    else if (p.endsWith(".json")) yield p;
+  }
 }
 
-function toStr(x: unknown): string | undefined {
-  return typeof x === "string" && x.trim() ? x.trim() : undefined;
-}
+const toStr = (v: unknown) =>
+  typeof v === "string" ? v : v == null ? "" : "";
 
-function normUrl(u: unknown): string {
-  const s = String(u ?? "").trim();
-  if (!s) return "";
-  if (/^https?:\/\//i.test(s)) return s;
+function normalizeUrl(u: string) {
+  if (!u) return "#";
+  const s = u.trim();
+  if (s.startsWith("http://") || s.startsWith("https://")) return s;
+  if (s.startsWith("//")) return "https:" + s;
   return "https://" + s.replace(/^\/+/, "");
 }
 
-const receipts = loadAllReceipts();
+const root = path.join(process.cwd(), "fixtures", "receipts");
+const items: any[] = [];
 
-const feed: Out[] = receipts
-  .filter((r) => r?.inspection?.date && r?.entity?.name)
-  .map((r) => {
-    const list = asArray(r.inspection?.violations);
-    const criticals = list
-      .filter((v: any) => v && (v.critical === true || String(v.critical) === "true"))
-      .map((v: any) => ({
-        code: toStr(v?.code) ?? "",
-        title: toStr(v?.title) ?? "",
-      }))
-      .filter((v) => v.code || v.title)
-      .slice(0, 4);
+for (const file of walk(root)) {
+  const r = JSON.parse(fs.readFileSync(file, "utf8")) as Receipt;
+  if (!r?.inspection?.date || !r?.entity?.name) continue;
 
-    return {
-      id: String(r.inspection.id),
-      school: String(r.entity.name),
-      parent: toStr((r as any).entity?.parent),
-      address: toStr(r.entity.address) ?? "",
-      date: String(r.inspection.date),
-      score: Number(r.inspection.score ?? 0),
-      critical_count: Number(r.inspection.critical_violations ?? 0),
-      noncritical_count: Number(r.inspection.noncritical_violations ?? 0),
-      source_url: normUrl(r.source?.url),
-      receipt_cid: toStr(r.proof?.cid),
-      criticals: criticals.length ? criticals : undefined,
-    };
-  })
-  .sort((a, b) => (a.date < b.date ? 1 : -1))
-  .slice(0, 30);
+  const criticals =
+    Array.isArray(r.inspection.violations)
+      ? r.inspection.violations
+          .filter((v) => !!v.critical)
+          .slice(0, 3)
+          .map((v) => ({ code: v.code, title: v.title }))
+      : [];
+
+  items.push({
+    id: r.inspection.id,
+    school: r.entity.name,
+    parent: toStr(r.entity.parent),
+    address: r.entity.address || "",
+    date: r.inspection.date,
+    score: r.inspection.score,
+    critical_count: r.inspection.critical_violations ?? criticals.length ?? 0,
+    noncritical_count: r.inspection.noncritical_violations ?? 0,
+    source_url: normalizeUrl(r.source.url),
+    receipt_cid: r.proof?.cid || "",
+    criticals,
+  });
+}
+
+if (!items.length) {
+  console.warn("⚠️  No receipts found. Skipping write of fixtures/feed.json.");
+  process.exit(0);
+}
+
+items.sort((a, b) => (a.date < b.date ? 1 : -1));
+const feed = items.slice(0, 30);
 
 const outPath = path.join(process.cwd(), "fixtures", "feed.json");
-safeWriteJSON(outPath, feed, "feed items");
+fs.writeFileSync(outPath, JSON.stringify(feed, null, 2));
+console.log("✅ Wrote", outPath, feed.length, "items");

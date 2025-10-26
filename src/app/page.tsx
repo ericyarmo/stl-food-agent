@@ -1,9 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Image from "next/image";
-
-// Static JSON = zero server work, deploy-friendly
 import feedData from "../../fixtures/feed.json" assert { type: "json" };
 import boardData from "../../fixtures/leaderboard.json" assert { type: "json" };
 
@@ -12,8 +10,8 @@ type FeedItem = {
   school: string;
   parent?: string;
   address?: string;
-  date: string;        // YYYY-MM-DD
-  score: number;       // 0..100
+  date: string;
+  score: number;
   critical_count: number;
   noncritical_count: number;
   source_url: string;
@@ -23,6 +21,7 @@ type FeedItem = {
 
 type Row = {
   school: string;
+  parent?: string;
   address?: string;
   latestDate: string;
   latestScore: number;
@@ -33,7 +32,7 @@ type Row = {
 function normalizeUrl(u: string) {
   if (!u) return "#";
   const s = u.trim();
-  if (/^https?:\/\//i.test(s)) return s;
+  if (s.startsWith("http://") || s.startsWith("https://")) return s;
   if (s.startsWith("//")) return "https:" + s;
   return "https://" + s.replace(/^\/+/, "");
 }
@@ -59,13 +58,20 @@ function FeedCard({
   item: FeedItem;
   onVerify: (it: FeedItem) => void;
 }) {
+  const parent =
+    typeof item.parent === "string" && item.parent.trim() ? item.parent : "";
+
   return (
     <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-4 flex flex-col gap-3">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <h3 className="font-semibold leading-tight text-black">{item.school}</h3>
-          {item.parent && <div className="text-xs text-gray-500">{item.parent}</div>}
-          {item.address && <div className="text-sm text-gray-500">{item.address}</div>}
+          <h3 className="font-semibold leading-tight text-black">
+            {item.school}
+          </h3>
+          {parent && <div className="text-xs text-gray-500">{parent}</div>}
+          {item.address && (
+            <div className="text-sm text-gray-500">{item.address}</div>
+          )}
         </div>
         <div className="text-right">
           <div className="text-2xl font-bold leading-none text-emerald-600">
@@ -75,16 +81,13 @@ function FeedCard({
         </div>
       </div>
 
-      {/* latest critical titles (if present) */}
       {item.criticals && item.criticals.length > 0 && (
         <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg p-2">
           <div className="font-medium mb-1">Latest criticals</div>
           <ul className="list-disc pl-5 space-y-0.5">
             {item.criticals.map((c, i) => (
               <li key={i}>
-                {c.code && <span className="font-mono">{c.code}</span>}
-                {c.code && c.title ? " · " : ""}
-                {c.title}
+                <span className="font-mono">{c.code}</span> · {c.title}
               </li>
             ))}
           </ul>
@@ -113,7 +116,7 @@ function FeedCard({
           target="_blank"
           rel="noopener noreferrer"
         >
-          View source
+          County portal (PressAgent)
         </a>
       </div>
     </div>
@@ -159,9 +162,7 @@ function VerifyModal({
                 <ul className="list-disc pl-5 space-y-0.5">
                   {item.criticals.map((c, i) => (
                     <li key={i}>
-                      {c.code && <span className="font-mono">{c.code}</span>}
-                      {c.code && c.title ? " · " : ""}
-                      {c.title}
+                      <span className="font-mono">{c.code}</span> · {c.title}
                     </li>
                   ))}
                 </ul>
@@ -179,7 +180,7 @@ function VerifyModal({
                 rel="noopener noreferrer"
                 className="underline text-black hover:text-gray-700"
               >
-                PressAgent facility page
+                County portal (PressAgent)
               </a>
             </span>
             {item.receipt_cid && (
@@ -219,7 +220,8 @@ function Feed({ data }: { data: FeedItem[] }) {
       ? data.filter(
           (d) =>
             d.school.toLowerCase().includes(q) ||
-            (d.parent || "").toLowerCase().includes(q)
+            (typeof d.parent === "string" &&
+              d.parent.toLowerCase().includes(q))
         )
       : data;
     return [...f].sort((a, b) => (a.date < b.date ? 1 : -1));
@@ -244,12 +246,14 @@ function Feed({ data }: { data: FeedItem[] }) {
 }
 
 function Leaderboard({ rows }: { rows: Row[] }) {
-  const [sort, setSort] = useState<"latest" | "avg" | "criticals">("latest");
+  const [sort, setSort] =
+    useState<"latest" | "avg" | "criticals">("latest");
   const sorted = useMemo(() => {
     const c = [...rows];
     if (sort === "latest") c.sort((a, b) => b.latestScore - a.latestScore);
     if (sort === "avg") c.sort((a, b) => b.avg12mo - a.avg12mo);
-    if (sort === "criticals") c.sort((a, b) => a.criticalsYTD - b.criticalsYTD);
+    if (sort === "criticals")
+      c.sort((a, b) => a.criticalsYTD - b.criticalsYTD);
     return c;
   }, [rows, sort]);
 
@@ -282,6 +286,9 @@ function Leaderboard({ rows }: { rows: Row[] }) {
               <tr key={r.school} className="bg-white rounded-xl shadow-sm">
                 <td className="px-3 py-2 font-semibold text-gray-700">
                   <div>{r.school}</div>
+                  {typeof r.parent === "string" && r.parent && (
+                    <div className="text-xs text-gray-500">{r.parent}</div>
+                  )}
                   {r.address && (
                     <div className="text-xs text-gray-500">{r.address}</div>
                   )}
@@ -304,8 +311,104 @@ function Leaderboard({ rows }: { rows: Row[] }) {
   );
 }
 
+/** simple, client-only chat demo (no API) */
+function ChatDemo() {
+  const [messages, setMessages] = useState<
+    { role: "user" | "assistant"; text: string }[]
+  >([
+    {
+      role: "assistant",
+      text:
+        "Hi! Ask about a school’s latest inspection, critical items, or average score. (This is a static demo.)",
+    },
+  ]);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const send = (text: string) => {
+    if (!text.trim()) return;
+    setMessages((m) => [...m, { role: "user", text }]);
+    // fake reply
+    setTimeout(() => {
+      setMessages((m) => [
+        ...m,
+        {
+          role: "assistant",
+          text:
+            "If this were live, I’d pull from your receipts and the county portal, then cite the exact source.",
+        },
+      ]);
+    }, 300);
+  };
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-wrap gap-2">
+        {[
+          "Show Clayton’s latest criticals",
+          "Compare Ladue vs Kirkwood this year",
+          "Map nearby schools with 95+",
+          "Explain the 'critical' label",
+        ].map((p) => (
+          <button
+            key={p}
+            onClick={() => send(p)}
+            className="px-3 py-1.5 rounded-full bg-white/80 border hover:bg-gray-900" 
+          >
+            {p}
+          </button>
+        ))}
+      </div>
+      <div className="rounded-2xl bg-white/90 border p-3 h-[320px] overflow-y-auto">
+        {messages.map((m, i) => (
+          <div
+            key={i}
+            className={`my-1 ${
+              m.role === "user" ? "text-right" : "text-left"
+            }`}
+          >
+            <span
+              className={`inline-block px-3 py-1.5 rounded-xl ${
+                m.role === "user"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-100 text-gray-900"
+              }`}
+            >
+              {m.text}
+            </span>
+          </div>
+        ))}
+      </div>
+      <div className="flex gap-2">
+        <input
+          ref={inputRef}
+          placeholder="Ask something…"
+          className="flex-1 rounded-xl border px-3 py-2 bg-white/90"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              send((e.target as HTMLInputElement).value);
+              (e.target as HTMLInputElement).value = "";
+            }
+          }}
+        />
+        <button
+          onClick={() => {
+            const v = inputRef.current?.value ?? "";
+            send(v);
+            if (inputRef.current) inputRef.current.value = "";
+          }}
+          className="px-4 py-2 rounded-xl bg-black text-white"
+        >
+          Send
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function Page() {
-  const [tab, setTab] = useState<"feed" | "leaderboard">("feed");
+  const [tab, setTab] =
+    useState<"feed" | "leaderboard" | "chat">("feed");
+
   return (
     <main className="mx-auto max-w-6xl p-4 md:p-6 space-y-6">
       <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
@@ -323,8 +426,8 @@ export default function Page() {
               STL Food Agent
             </h1>
             <p className="max-w-prose text-white/80">
-              Public school inspections as verifiable receipts. Ask questions,
-              check the proof.
+              Public school inspections as verifiable receipts. Ask
+              questions, check the proof.
             </p>
           </div>
         </div>
@@ -341,26 +444,19 @@ export default function Page() {
       </header>
 
       <div className="flex gap-2 mb-2">
-        <button
-          onClick={() => setTab("feed")}
-          className={`px-3 py-1.5 rounded-xl text-sm border ${
-            tab === "feed"
-              ? "bg-white text-black border-white"
-              : "bg-black text-white border-white/40"
-          }`}
-        >
-          Feed
-        </button>
-        <button
-          onClick={() => setTab("leaderboard")}
-          className={`px-3 py-1.5 rounded-xl text-sm border ${
-            tab === "leaderboard"
-              ? "bg-white text-black border-white"
-              : "bg-black text-white border-white/40"
-          }`}
-        >
-          Leaderboard
-        </button>
+        {(["feed", "leaderboard", "chat"] as const).map((t) => (
+          <button
+            key={t}
+            onClick={() => setTab(t)}
+            className={`px-3 py-1.5 rounded-xl text-sm border ${
+              tab === t
+                ? "bg-white text-black border-white"
+                : "bg-black text-white border-white/40"
+            }`}
+          >
+            {t === "feed" ? "Feed" : t === "leaderboard" ? "Leaderboard" : "Chat"}
+          </button>
+        ))}
       </div>
 
       <div className="mt-2 p-3 rounded-md bg-white/60 shadow-sm text-sm text-gray-800">
@@ -382,8 +478,10 @@ export default function Page() {
 
       {tab === "feed" ? (
         <Feed data={feedData as FeedItem[]} />
-      ) : (
+      ) : tab === "leaderboard" ? (
         <Leaderboard rows={boardData as Row[]} />
+      ) : (
+        <ChatDemo />
       )}
 
       <footer className="pt-8 text-xs text-gray-600">

@@ -7,8 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-
-    "data:emit-json": "tsx scripts/receipts_to_json.ts",
+    "data:emit-json": "node --loader ts-node/esm scripts/receipts_to_json.ts",
     "data:feed": "tsx scripts/build_feed.ts",
     "data:leaderboard": "tsx scripts/build_leaderboard.ts",
     "data": "npm run data:emit-json && npm run data:feed && npm run data:leaderboard"
