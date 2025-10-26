@@ -259,7 +259,7 @@ function LeaderboardView({ rows }: { rows: LeaderRow[] }) {
                 <td className="px-3 py-2 font-semibold text-gray-600">
                   <div className="font-medium">{r.school}</div>
                   {r.address && (
-                    <div className="text-xs text-black-500">{r.address}</div>
+                    <div className="text-xs text-gray-500">{r.address}</div>
                   )}
                 </td>
                 <td className="px-3 py-2 font-semibold text-emerald-600">{r.latestScore}</td>
