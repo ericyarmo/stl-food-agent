@@ -43,72 +43,126 @@ function readFrontMatter(md: string): string | null {
 }
 
 /**
- * Ultra-light YAML-ish parser for our own emitted front-matter.
- * Handles only the scalars/arrays/objects we emit.
- * If ingest changes, prefer emitting JSON and skip this.
+ * Ultra-light YAML-ish parser for our emitted front-matter.
+ * Supports:
+ *   key: value
+ *   key:
+ *     sub: value
+ *   list:
+ *     - item
+ *     - key: value
+ *       another: value
+ *
+ * Notes:
+ * - Indentation uses spaces only. Tabs are converted to 4 spaces.
+ * - Multiline scalars are not needed for our receipts; everything is single line.
  */
 function yamlLiteToObject(y: string): any {
-  const out: any = {};
-  const lines = y.split(/\r?\n/);
-  const stack: any[] = [out];
+  type Frame =
+    | { type: "object"; value: Record<string, any> }
+    | { type: "array"; value: any[] };
+
+  const root: Record<string, any> = {};
+  const stack: Frame[] = [{ type: "object", value: root }];
   const indents: number[] = [0];
-  let currentKey: string | null = null;
+
+  // Used to attach "- ..." items under the most recent key in an object
+  let lastKey: string | null = null;
+
+  const lines = y.split(/\r?\n/);
 
   for (const rawLine of lines) {
     const line = rawLine.replace(/\t/g, "    ");
     if (!line.trim()) continue;
 
-    const indent = line.match(/^ */)![0].length;
-    while (indent < indents[indents.length - 1]) {
+    const indent = (line.match(/^ */)![0] || "").length;
+    const trimmed = line.trimStart();
+
+    // Unwind stack to the current indent
+    while (indents.length > 0 && indent < indents[indents.length - 1]) {
       indents.pop();
       stack.pop();
+      // when we pop out of a key's nested block, we also forget that key
+      lastKey = null;
     }
 
-    const cur = stack[stack.length - 1];
+    const top = stack[stack.length - 1];
 
-    // list item
-    if (line.trimStart().startsWith("- ")) {
-      const itemStr = line.trimStart().slice(2);
+    // LIST ITEM
+    if (trimmed.startsWith("- ")) {
+      const itemStr = trimmed.slice(2);
 
-      // Ensure we have an array to push into
-      if (!Array.isArray(cur)) {
-        const k = currentKey ?? "__items";
-        if (typeof cur[k] === "undefined") cur[k] = [];
-        // Focus on that array
-        stack.push(cur[k]);
+      // Ensure we're inside an array; if we’re in an object, we need a lastKey to hang the array from.
+      if (top.type === "object") {
+        const obj = top.value;
+        const keyForArray = lastKey ?? "__items"; // fallback bucket if malformed
+        if (!Array.isArray(obj[keyForArray])) obj[keyForArray] = [];
+        // Descend into that array if we're not already inside it at this indent
+        stack.push({ type: "array", value: obj[keyForArray] });
         indents.push(indent);
       }
-      const arr = stack[stack.length - 1] as any[];
+
+      const arrFrame = stack[stack.length - 1];
+      if (arrFrame.type !== "array") {
+        // Shouldn’t happen, but guard anyway
+        continue;
+      }
 
       if (itemStr.includes(": ")) {
+        // "- key: value" (object item possibly followed by nested props)
         const [k, v] = itemStr.split(/:\s+/, 2);
-        const obj: any = {};
+        const obj: Record<string, any> = {};
         obj[k] = parseScalar(v);
-        arr.push(obj);
-        // Next deeper props will attach to this object
-        stack.push(obj);
+        arrFrame.value.push(obj);
+        // Prepare to accept nested props for this object at deeper indent
+        stack.push({ type: "object", value: obj });
         indents.push(indent + 2);
+        lastKey = k; // track last key within this new object
       } else {
-        arr.push(parseScalar(itemStr));
+        // "- scalar"
+        arrFrame.value.push(parseScalar(itemStr));
+        lastKey = null;
       }
       continue;
     }
 
-    // key: value  OR  key:
-    const kv = line.trimStart().split(/:\s*/, 2);
+    // KEY line: "key:" or "key: value"
+    const kv = trimmed.split(/:\s*/, 2);
     const key = kv[0];
-    currentKey = key;
 
     if (kv.length === 1 || kv[1] === "") {
-      // start new nested object
-      cur[key] = {};
-      stack.push(cur[key]);
+      // "key:" -> start a nested object
+      if (top.type !== "object") {
+        // If we’re inside an array and get "key:", push an object into the array first
+        const obj: Record<string, any> = {};
+        (top.value as any[]).push(obj);
+        // Switch context to that new object
+        stack.push({ type: "object", value: obj });
+        indents.push(indent);
+      }
+      const objTop = stack[stack.length - 1] as { type: "object"; value: Record<string, any> };
+      objTop.value[key] = {};
+      // descend into this key's object
+      stack.push({ type: "object", value: objTop.value[key] });
       indents.push(indent + 2);
+      lastKey = key;
     } else {
-      cur[key] = parseScalar(kv[1]);
+      // "key: value"
+      const value = parseScalar(kv[1]);
+      if (top.type === "object") {
+        top.value[key] = value;
+      } else {
+        // We’re inside an array; push an object with this key/value
+        const obj: Record<string, any> = {};
+        obj[key] = value;
+        top.value.push(obj);
+        // Don’t descend; single-line kv in an array stays flat unless more indented lines follow
+      }
+      lastKey = key;
     }
   }
-  return out;
+
+  return root;
 }
 
 function parseScalar(v: string) {
@@ -116,8 +170,8 @@ function parseScalar(v: string) {
   if (s === "null") return null;
   if (s === "true") return true;
   if (s === "false") return false;
-  if (/^\d+$/.test(s)) return Number(s);
-  if (/^\d+\.\d+$/.test(s)) return Number(s);
+  if (/^-?\d+$/.test(s)) return Number(s);
+  if (/^-?\d+\.\d+$/.test(s)) return Number(s);
   return s;
 }
 
